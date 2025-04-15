@@ -1,0 +1,102 @@
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+class ListNode {
+    public:
+        int val_;
+        ListNode* next = nullptr;
+
+        ListNode(int val) {
+            val_ = val;
+        }
+};
+
+class Queue {
+public:
+    // Implementing this with dummy nodes would be easier!
+    ListNode* left = nullptr;
+    ListNode* right = nullptr;
+
+    Queue() {}
+
+    void enqueue(int val) {
+        ListNode* newNode = new ListNode(val);
+
+        // Queue is non-empty
+        if (right != nullptr) {
+            right->next = newNode;
+            right = right->next;
+        } 
+        // Queue 
+        else {
+            left = right = newNode;
+        }
+    }
+
+    int dequeue() {
+        // Queue is empty
+        if (left == nullptr) {
+            return -1; // Better to throw an exception
+        }
+        // Remove left node and return value
+        int val = left->val_;
+        left = left->next;
+        return val;
+    }
+
+    void print() {
+        ListNode* curr = left;
+        while (curr != nullptr) {
+            cout << curr->val_ << " -> ";
+            curr = curr->next;
+        }
+        cout << endl;
+    }
+};
+
+---
+ // implementation using stack 
+
+ class MyQueue {
+public:
+    stack<int> input;
+    stack<int> output;
+
+    MyQueue() {
+    }
+    
+    void push(int x) {
+        input.push(x);
+    }
+    
+    int pop() {
+      int ans = peek();
+      output.pop();
+        return ans;
+    }
+    
+    int peek() {
+        if(output.empty()){
+            while(!input.empty()){
+                output.push(input.top());
+                input.pop();
+            }
+        }
+        return output.top();
+    }
+    
+    bool empty() {
+        return input.empty()&&output.empty();
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue* obj = new MyQueue();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->peek();
+ * bool param_4 = obj->empty();
+ */
