@@ -74,3 +74,22 @@ int maxSubarraySumCircular(vector<int>& nums) {
 
         return max(maxsum,totalsum-minsum);
 }
+// max Product using Kadanes Algorithm where the Negative Numbers can flip 
+    int maxProduct(vector<int>& nums) {
+        int curmaxprod = nums[0];
+        int curminprod = nums[0];
+        int maxprod = nums[0];
+
+        for (int i = 1; i < nums.size(); i++) {
+            int num = nums[i];
+            
+            int tempmax = max({num, curmaxprod * num, curminprod * num});
+            int tempmin = min({num, curmaxprod * num, curminprod * num});
+            
+            curmaxprod = tempmax;
+            curminprod = tempmin;
+
+            maxprod = max(maxprod, curmaxprod);
+        }
+
+        return maxprod;
